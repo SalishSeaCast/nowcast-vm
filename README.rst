@@ -12,3 +12,21 @@ VM.
 The VM has been extensively used on 2015-vintage laptops running Ubuntu 16.04.
 
 .. _Vagrant: https://www.vagrantup.com/
+
+The VM is configured so that it can be used the ``vagrant`` user,
+the default user when you ``vagrant ssh`` into the VM.
+
+
+Provisioning
+============
+
+Directories similar to those on ``skookum`` are created:
+
+* ``/data/``
+* ``/ocean/``
+* ``/results/``
+
+The local ``../tools/`` directory is mounted as a ``synced_folder`` at
+``/results/nowcast-sys/tools/``.
+That is done on the assumption that you have cloned this repo beside your
+``tools/`` repo.
