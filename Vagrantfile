@@ -19,6 +19,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Provisioning
   config.vm.provision "shell", inline: <<-SHELL
+    apt-get update
+    apt-get install -y mg
+
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
     chown vagrant:vagrant /results
