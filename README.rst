@@ -30,3 +30,12 @@ The local ``../tools/`` directory is mounted as a ``synced_folder`` at
 ``/results/nowcast-sys/tools/``.
 That is done on the assumption that you have cloned this repo beside your
 ``tools/`` repo.
+
+``sshfs`` is installed on the VM and ssh agent forwarding is enabled
+so that directories from ``skookum`` can be mounted,
+for example::
+
+  sshfs dlatorne@skookum.eos.ubc.ca:/data /data
+
+will use the default ssh key for `dlatorne`` to mount the `/data/` directory
+on ``skookum`` as ``/data/`` on the VM.
