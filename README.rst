@@ -25,9 +25,15 @@ Directories similar to those on ``skookum`` are created:
 * ``/data/``
 * ``/ocean/``
 * ``/results/``
+* ``$HOME/nowcast`` (in place of ``/home/dlatorne/public_html/MEOPAR/nowcast/``)
 
-The local ``../tools/`` directory is mounted as a ``synced_folder`` at
-``/results/nowcast-sys/tools/``.
+The Vagrant ``synced_folder`` feature is used to mount local directories
+on the VM:
+
+* the local ``../tools/`` directory is mounted at
+``/results/nowcast-sys/tools/``
+* the local ``../salishsea-site/`` directory is mounted at ``$HOME/nowcast/www/salishsea-site/``
+
 That is done on the assumption that you have cloned this repo beside your
 ``tools/`` repo.
 
