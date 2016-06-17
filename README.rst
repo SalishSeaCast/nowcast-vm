@@ -50,3 +50,11 @@ on ``skookum`` as ``/data/`` on the VM.
 and ``/home/vagrant/miniconda/bin`` is prefixed to ``PATH`` in ``/home/vagrant/.bash_aliases``.
 
 .. _Miniconda: http://conda.pydata.org/miniconda.html
+
+The `SalishSeaTools`_, `SalishSeaCmd`_, and `SalishSeaNowcast`_ packages are
+installed in the ``/home/vagrant/miniconda/envs/nowcast-env`` conda environment,
+and that environment is activated automatically on login via ``/home/vagrant/.bash_aliases``.
+
+.. _SalishSeaTools: http://salishsea-meopar-tools.readthedocs.io/en/latest/SalishSeaTools/index.html
+.. _SalishSeaCmd: http://salishsea-meopar-tools.readthedocs.io/en/latest/SalishSeaCmd/index.html
+.. _SalishSeaNowcast: http://salishsea-meopar-tools.readthedocs.io/en/latest/SalishSeaNowcast/index.html
