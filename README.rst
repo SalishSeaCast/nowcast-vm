@@ -43,5 +43,10 @@ for example::
 
   sshfs dlatorne@skookum.eos.ubc.ca:/data /data
 
-will use the default ssh key for `dlatorne`` to mount the `/data/` directory
+will use the default ssh key for ``dlatorne`` to mount the ``/data/`` directory
 on ``skookum`` as ``/data/`` on the VM.
+
+`Miniconda`_ is installed in ``/home/vagrant/miniconda/``,
+and ``/home/vagrant/miniconda/bin`` is prefixed to ``PATH`` in ``/home/vagrant/.bash_aliases``.
+
+.. _Miniconda: http://conda.pydata.org/miniconda.html
