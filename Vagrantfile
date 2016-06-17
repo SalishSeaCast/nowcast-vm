@@ -30,6 +30,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
+    mkdir -p -m 775 /var/www/html && chgrp vagrant /var/www/html
 
     chown vagrant:vagrant /results
     chown vagrant:vagrant /results/nowcast-sys

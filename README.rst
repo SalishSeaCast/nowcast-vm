@@ -25,6 +25,7 @@ Directories similar to those on ``skookum`` are created:
 * ``/data/``
 * ``/ocean/``
 * ``/results/``
+* ``/var/www/html``
 * ``$HOME/nowcast`` (in place of ``/home/dlatorne/public_html/MEOPAR/nowcast/``)
 
 The Vagrant ``synced_folder`` feature is used to mount local directories
