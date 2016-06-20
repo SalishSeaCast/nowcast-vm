@@ -64,24 +64,51 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     CONDA_BIN=$VAGRANT_HOME/miniconda/bin
     touch $VAGRANT_HOME/.bash_aliases && chown vagrant:vagrant $VAGRANT_HOME/.bash_aliases
     su vagrant -c " \
-      echo export PATH=$CONDA_BIN:'$PATH' > $VAGRANT_HOME/.bash_aliases \
+      echo export PATH=$CONDA_BIN:\$PATH > $VAGRANT_HOME/.bash_aliases \
     "
 
     CONDA=$CONDA_BIN/conda
     NOWCAST_SYS=/results/nowcast-sys
-    NOWCAST_ENV=$VAGRANT_HOME/miniconda/envs/nowcast-env
+    NOWCAST_ENV=$NOWCAST_SYS/nowcast-env
+    PIP=$NOWCAST_ENV/bin/pip
     if [ -d $NOWCAST_ENV ]; then
-      echo "nowcast conda env already exists"
+      echo "$NOWCAST_ENV conda env already exists"
     else
-      echo "Creating nowcast conda env"
+      echo "Creating $NOWCAST_ENV conda env"
       su vagrant -c " \
-        $CONDA env create \
-          -n nowcast-env \
-          -f $NOWCAST_SYS/tools/SalishSeaNowcast/environment-dev.yaml \
-        && $NOWCAST_ENV/bin/pip install --editable $NOWCAST_SYS/tools/SalishSeaTools/ \
-        && $NOWCAST_ENV/bin/pip install --editable $NOWCAST_SYS/tools/SalishSeaCmd/ \
-        && $NOWCAST_ENV/bin/pip install --editable $NOWCAST_SYS/tools/SalishSeaNowcast/ \
-        && echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases
+        $CONDA create --yes --prefix $NOWCAST_ENV \
+            lxml \
+            mako \
+            matplotlib \
+            netCDF4 \
+            numpy \
+            pandas \
+            paramiko \
+            pillow \
+            pyyaml \
+            pyzmq \
+            pip \
+            python=3 \
+            requests \
+            scipy \
+            sphinx \
+        && echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
+      "
+      echo "Installing pip packages into $NOWCAST_ENV conda env"
+      su vagrant -c " \
+        $PIP install \
+          angles \
+          arrow \
+          BeautifulSoup4 \
+          driftwood \
+          feedgen \
+          sphinx-bootstrap-theme \
+        "
+      echo "Installing editable tools/SalishSea* packages into $NOWCAST_ENV conda env"
+      su vagrant -c " \
+        $PIP install --editable $NOWCAST_SYS/tools/SalishSeaTools/ \
+        && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaCmd/ \
+        && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaNowcast/ \
       "
     fi
   SHELL
