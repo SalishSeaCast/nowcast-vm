@@ -29,6 +29,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.provision "shell", inline: <<-SHELL
     apt-get update
 
+    TIMEZONE=Canada/Pacific
+    echo "Set timezone to ${TIMEZONE}"
+    timedatectl set-timezone ${TIMEZONE}
+
     apt-get install -y mg
     apt-get install -y sshfs
     apt-get install -y apache2
