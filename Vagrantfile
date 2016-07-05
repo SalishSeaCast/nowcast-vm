@@ -79,6 +79,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
       echo "Creating $NOWCAST_ENV conda env"
       su vagrant -c " \
         $CONDA create --yes --prefix $NOWCAST_ENV \
+            bottleneck \
             lxml \
             mako \
             matplotlib \
@@ -94,6 +95,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             requests \
             scipy \
             sphinx \
+            xarray \
         && echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
       "
       echo "Installing pip packages into $NOWCAST_ENV conda env"
@@ -104,6 +106,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
           BeautifulSoup4 \
           driftwood \
           feedgen \
+          retrying \
           sphinx-bootstrap-theme \
         "
       echo "Installing editable tools/SalishSea* packages into $NOWCAST_ENV conda env"
