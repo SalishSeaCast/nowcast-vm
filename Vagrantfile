@@ -18,6 +18,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   config.vm.synced_folder "../tools/", "/results/nowcast-sys/tools",
     create: true
+  config.vm.synced_folder "../NEMO-forcing/", "/results/nowcast-sys/NEMO-forcing",
+    create: true
   config.vm.synced_folder "../salishsea-site/",
     "/home/vagrant/nowcast/www/salishsea_site",
     create: true
