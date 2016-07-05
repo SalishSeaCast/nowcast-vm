@@ -108,7 +108,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
             scipy \
             sphinx \
             xarray \
-        && echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
       "
       echo "Installing pip packages into $NOWCAST_ENV conda env"
       su vagrant -c " \
@@ -128,5 +127,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
         && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaNowcast/ \
       "
     fi
+
+    su vagrant -c " \
+      echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
+    "
   SHELL
 end
