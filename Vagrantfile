@@ -139,5 +139,27 @@ EOF
     su vagrant -c " \
       echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
     "
+
+    SALISHSEA_SITE_ENV=$NOWCAST_SYS/salishsea-site-env
+    PIP=$SALISHSEA_SITE_ENV/bin/pip
+    if [ -d $SALISHSEA_SITE_ENV ]; then
+      echo "$SALISHSEA_SITE_ENV conda env already exists"
+    else
+      echo "Creating $SALISHSEA_SITE_ENV conda env"
+      su vagrant -c " \
+        $CONDA create --yes --prefix $SALISHSEA_SITE_ENV \
+            pip \
+            python=3 \
+      "
+      echo "Installing pip packages into $SALISHSEA_SITE_ENV conda env"
+      su vagrant -c " \
+        $PIP install \
+          pyramid \
+          pyramid-crow \
+          pyramid-debugtoolbar \
+          pyramid_mako \
+          waitress \
+        "
+    fi
   SHELL
 end
