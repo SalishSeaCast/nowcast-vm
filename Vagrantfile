@@ -39,7 +39,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
-    mkdir -p -m 775 /var/www/html && chgrp vagrant /var/www/html
+    mkdir -p /var/www/html && chgrp vagrant /var/www/html && chmod 775 /var/www/html
+    chown vagrant:vagrant /var/www/html/index.html && chmod 664 /var/www/html/index.html
 
     ln -sf /vagrant/salishsea.eos.ubc.ca.conf \
       /etc/apache2/sites-available/salishsea.eos.ubc.ca.conf
