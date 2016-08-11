@@ -42,8 +42,15 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     mkdir -p /var/www/html && chgrp vagrant /var/www/html && chmod 775 /var/www/html
     chown vagrant:vagrant /var/www/html/index.html && chmod 664 /var/www/html/index.html
 
-    ln -sf /vagrant/salishsea.eos.ubc.ca.conf \
-      /etc/apache2/sites-available/salishsea.eos.ubc.ca.conf
+    cat << EOF > /etc/apache2/sites-available/salishsea.eos.ubc.ca.conf
+<VirtualHost *:80>
+   ServerAdmin admin@salishsea.eos.ubc.ca
+   ServerName salishsea.eos.ubc.ca
+   DocumentRoot /var/www/html
+   ErrorLog ${APACHE_LOG_DIR}/error.log
+   CustomLog ${APACHE_LOG_DIR}/access.log combined
+</VirtualHost>
+EOF
     /usr/sbin/a2ensite salishsea.eos.ubc.ca.conf
     service apache2 reload
 
