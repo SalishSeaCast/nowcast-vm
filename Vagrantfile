@@ -35,24 +35,29 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
     apt-get install -y mg
     apt-get install -y sshfs
-    apt-get install -y apache2
+    apt-get install -y apache2 libapache2-mod-proxy-html libxml2-dev
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
     mkdir -p /var/www/html && chgrp vagrant /var/www/html && chmod 775 /var/www/html
-    chown vagrant:vagrant /var/www/html/index.html && chmod 664 /var/www/html/index.html
 
     cat << EOF > /etc/apache2/sites-available/salishsea.eos.ubc.ca.conf
 <VirtualHost *:80>
-   ServerAdmin admin@salishsea.eos.ubc.ca
-   ServerName salishsea.eos.ubc.ca
-   DocumentRoot /var/www/html
-   ErrorLog ${APACHE_LOG_DIR}/error.log
-   CustomLog ${APACHE_LOG_DIR}/access.log combined
+    ServerAdmin admin@salishsea.eos.ubc.ca
+    ServerName localhost
+    ErrorLog ${APACHE_LOG_DIR}/error.log
+    CustomLog ${APACHE_LOG_DIR}/access.log combined
+
+    ProxyRequests Off
+    ProxyPreserveHost On
+    ProxyPass / http://0.0.0.0:6543/
+    ProxyPassReverse / http://0.0.0.0:6543/
 </VirtualHost>
 EOF
+    /usr/sbin/a2enmod proxy_http rewrite cache headers
     /usr/sbin/a2ensite salishsea.eos.ubc.ca.conf
-    service apache2 reload
+    /usr/sbin/a2dissite 000-default.conf
+    service apache2 restart
 
     chown vagrant:vagrant /results
     chown vagrant:vagrant /results/nowcast-sys
