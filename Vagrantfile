@@ -159,6 +159,7 @@ EOF
       echo "Installing pip packages into $SALISHSEA_SITE_ENV conda env"
       su vagrant -c " \
         $PIP install \
+          circus \
           pyramid \
           pyramid-crow \
           pyramid-debugtoolbar \
@@ -169,6 +170,10 @@ EOF
 
     su vagrant -c " \
       echo source activate $SALISHSEA_SITE_ENV >> $VAGRANT_HOME/.bash_aliases \
+    "
+
+    su vagrant -c " \
+      mkdir -p /results/nowcast-sys/logs/salishsea-site \
     "
   SHELL
 end
