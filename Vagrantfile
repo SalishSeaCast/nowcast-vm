@@ -153,12 +153,14 @@ EOF
       echo "Creating $SALISHSEA_SITE_ENV conda env"
       su vagrant -c " \
         $CONDA create --yes --prefix $SALISHSEA_SITE_ENV \
-            pip \
-            python=3 \
+          pip \
+          python=3 \
+          pyyaml \
       "
       echo "Installing pip packages into $SALISHSEA_SITE_ENV conda env"
       su vagrant -c " \
         $PIP install \
+          chaussette \
           circus \
           pyramid \
           pyramid-crow \
