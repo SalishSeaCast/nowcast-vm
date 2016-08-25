@@ -177,5 +177,19 @@ EOF
     su vagrant -c " \
       mkdir -p /results/nowcast-sys/logs/salishsea-site \
     "
+
+    echo "Setting up ${SALISHSEA_SITE_ENV} activate/deactivate hooks that export/unset environment variables"
+    su vagrant -c " \
+      mkdir -p ${SALISHSEA_SITE_ENV}/etc/conda/activate.d \
+      && cat << EOF > ${SALISHSEA_SITE_ENV}/etc/conda/activate.d/envvars.sh
+export SALISHSEA_SITE=/home/vagrant/nowcast/www/salishsea_site
+export SENTRY_DSN=
+EOF"
+    su vagrant -c " \
+      mkdir -p ${SALISHSEA_SITE_ENV}/etc/conda/deactivate.d \
+      && cat << EOF > ${SALISHSEA_SITE_ENV}/etc/conda/deactivate.d/envvars.sh
+unset SALISHSEA_SITE
+unset SENTRY_DSN
+EOF"
   SHELL
 end
