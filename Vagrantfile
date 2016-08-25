@@ -21,7 +21,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../NEMO-forcing/", "/results/nowcast-sys/NEMO-forcing",
     create: true
-  config.vm.synced_folder "../salishsea-site/",
+  config.vm.synced_folder ".",
     "/home/vagrant/nowcast/www/salishsea_site",
     create: true
 
@@ -141,9 +141,9 @@ EOF
       "
     fi
 
-    su vagrant -c " \
-      echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
-    "
+    # su vagrant -c " \
+    #   echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
+    # "
 
     SALISHSEA_SITE_ENV=$NOWCAST_SYS/salishsea-site-env
     PIP=$SALISHSEA_SITE_ENV/bin/pip
@@ -166,5 +166,9 @@ EOF
           waitress \
         "
     fi
+
+    su vagrant -c " \
+      echo source activate $SALISHSEA_SITE_ENV >> $VAGRANT_HOME/.bash_aliases \
+    "
   SHELL
 end
