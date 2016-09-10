@@ -145,6 +145,11 @@ EOF
     #   echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
     # "
 
+    su vagrant -c " \
+      mkdir -p /results/observations/ONC/CTD/SCVIP \
+    "
+
+
     SALISHSEA_SITE_ENV=$NOWCAST_SYS/salishsea-site-env
     PIP=$SALISHSEA_SITE_ENV/bin/pip
     if [ -d $SALISHSEA_SITE_ENV ]; then
