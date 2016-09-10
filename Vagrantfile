@@ -149,6 +149,20 @@ EOF
       mkdir -p /results/observations/ONC/CTD/SCVIP \
     "
 
+    echo "Setting up ${NOWCAST_ENV} activate/deactivate hooks that export/unset environment variables"
+    su vagrant -c " \
+      mkdir -p ${NOWCAST_ENV}/etc/conda/activate.d \
+      && cat << EOF > ${NOWCAST_ENV}/etc/conda/activate.d/envvars.sh
+export ONC_USER_TOKEN=
+export SENTRY_DSN=
+EOF"
+    su vagrant -c " \
+      mkdir -p ${NOWCAST_ENV}/etc/conda/deactivate.d \
+      && cat << EOF > ${NOWCAST_ENV}/etc/conda/deactivate.d/envvars.sh
+unset ONC_USER_TOKEN
+unset SENTRY_DSN
+EOF"
+
 
     SALISHSEA_SITE_ENV=$NOWCAST_SYS/salishsea-site-env
     PIP=$SALISHSEA_SITE_ENV/bin/pip
