@@ -17,12 +17,17 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.ssh.forward_agent = true
   end
 
+  config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
+    create: true
+  config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
+    create: true
+  config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
+    create: true
+  config.vm.synced_folder "../salishsea_site", "/home/vagrant/nowcast/www/salishsea_site",
+    create: true
   config.vm.synced_folder "../tools/", "/results/nowcast-sys/tools",
     create: true
   config.vm.synced_folder "../NEMO-forcing/", "/results/nowcast-sys/NEMO-forcing",
-    create: true
-  config.vm.synced_folder ".",
-    "/home/vagrant/nowcast/www/salishsea_site",
     create: true
 
   # Provisioning
@@ -94,6 +99,10 @@ EOF
       echo export PATH=$CONDA_BIN:\$PATH > $VAGRANT_HOME/.bash_aliases \
     "
 
+
+ ########################################################
+ # Environment for nowcast-v2 (tools/SalishSeaNowcast)
+ ########################################################
     CONDA=$CONDA_BIN/conda
     NOWCAST_SYS=/results/nowcast-sys
     NOWCAST_ENV=$NOWCAST_SYS/nowcast-env
@@ -164,6 +173,9 @@ unset SENTRY_DSN
 EOF"
 
 
+ ########################################################
+ # Environment for salishsea-site Pyramid app
+ ########################################################
     SALISHSEA_SITE_ENV=$NOWCAST_SYS/salishsea-site-env
     PIP=$SALISHSEA_SITE_ENV/bin/pip
     if [ -d $SALISHSEA_SITE_ENV ]; then
@@ -189,9 +201,9 @@ EOF"
         "
     fi
 
-    su vagrant -c " \
-      echo source activate $SALISHSEA_SITE_ENV >> $VAGRANT_HOME/.bash_aliases \
-    "
+    # su vagrant -c " \
+    #   echo source activate $SALISHSEA_SITE_ENV >> $VAGRANT_HOME/.bash_aliases \
+    # "
 
     su vagrant -c " \
       mkdir -p /results/nowcast-sys/logs/salishsea-site \
@@ -210,5 +222,75 @@ EOF"
 unset SALISHSEA_SITE
 unset SENTRY_DSN
 EOF"
+
+
+ ################################################################
+ # Environment for nowcast-v3 (NEMO_Nowcast & SalishSeaNowcast)
+ ################################################################
+    NOWCAST3_ENV=${NOWCAST_SYS}/nowcast3-env
+    PIP=${NOWCAST3_ENV}/bin/pip
+    if [ -d ${NOWCAST3_ENV} ]; then
+      echo "${NOWCAST3_ENV} conda env already exists"
+    else
+      echo "Creating ${NOWCAST3_ENV} conda env"
+      su vagrant -c " \
+        $CONDA create --yes --channel gomss-nowcast --channel conda-forge \
+            --prefix ${NOWCAST3_ENV} \
+            arrow \
+            attrs \
+            circus \
+            pip \
+            python=3 \
+            pyyaml \
+            pyzmq \
+            requests \
+            schedule \
+            sphinx \
+      "
+      echo "Installing pip packages into ${NOWCAST3_ENV} conda env"
+      su vagrant -c " \
+        ${PIP} install \
+          raven \
+          sphinx-rtd-theme \
+        "
+      echo "Installing editable NEMO_Nowcast & SalishSeaNowcast packages into ${NOWCAST3_ENV} conda env"
+      su vagrant -c " \
+        ${PIP} install --editable ${NOWCAST_SYS}/NEMO_Nowcast/ \
+        && ${PIP} install --editable ${NOWCAST_SYS}/SalishSeaNowcast/ \
+      "
+    fi
+
+    su vagrant -c " \
+      echo source activate ${NOWCAST3_ENV} >> ${VAGRANT_HOME}/.bash_aliases \
+    "
+
+    NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
+    NOWCAST_YAML=${NOWCAST_CONFIG}/nowcast.yaml
+
+    NOWCAST_LOGS=${NOWCAST_SYS}/logs/nowcast
+    mkdir -p ${NOWCAST_LOGS} && chown vagrant:vagrant ${NOWCAST_LOGS}
+
+    echo "Setting up ${NOWCAST3_ENV} activate/deactivate hooks that export/unset environment variables"
+    su vagrant -c " \
+      mkdir -p ${NOWCAST3_ENV}/etc/conda/activate.d \
+      && cat << EOF > ${NOWCAST3_ENV}/etc/conda/activate.d/envvars.sh
+export NOWCAST_ENV=${NOWCAST3_ENV}
+export NOWCAST_CONFIG=${NOWCAST_CONFIG}
+export NOWCAST_YAML=${NOWCAST_YAML}
+export NOWCAST_LOGS=${NOWCAST_LOGS}
+export ONC_USER_TOKEN=
+export SENTRY_DSN=
+EOF"
+    su vagrant -c " \
+      mkdir -p ${NOWCAST3_ENV}/etc/conda/deactivate.d \
+      && cat << EOF > ${NOWCAST3_ENV}/etc/conda/deactivate.d/envvars.sh
+unset NOWCAST_ENV
+unset NOWCAST_CONFIG
+unset NOWCAST_YAML
+unset NOWCAST_LOGS
+unset ONC_USER_TOKEN
+unset SENTRY_DSN
+EOF"
+
   SHELL
 end
