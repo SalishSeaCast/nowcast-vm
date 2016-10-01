@@ -66,6 +66,9 @@ EOF
 
     chown vagrant:vagrant /results
     chown vagrant:vagrant /results/nowcast-sys
+    su vagrant -c ' \
+      mkdir -p /results/forcing/atmospheric/GEM2.5/GRIB/ \
+    '
 
     chown vagrant:vagrant /home/vagrant/nowcast
     chown vagrant:vagrant /home/vagrant/nowcast/www
