@@ -248,12 +248,16 @@ EOF"
             pyzmq \
             requests \
             schedule \
+            # Dev tool for tests & docs building
+            coverage \
+            pytest \
             sphinx \
       "
       echo "Installing pip packages into ${NOWCAST3_ENV} conda env"
       su vagrant -c " \
         ${PIP} install \
           raven \
+          # Dev tool for tests & docs building
           sphinx-rtd-theme \
         "
       echo "Installing editable NEMO_Nowcast & SalishSeaNowcast packages into ${NOWCAST3_ENV} conda env"
