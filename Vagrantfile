@@ -242,6 +242,7 @@ EOF"
             arrow \
             attrs \
             circus \
+            paramiko \
             pip \
             python=3 \
             pyyaml \
