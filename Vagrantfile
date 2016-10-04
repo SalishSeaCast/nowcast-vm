@@ -242,6 +242,9 @@ EOF"
             arrow \
             attrs \
             circus \
+            matplolib \
+            netcdf4 \
+            numpy \
             paramiko \
             pip \
             python=3 \
