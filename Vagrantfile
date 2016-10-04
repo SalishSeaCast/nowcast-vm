@@ -257,6 +257,7 @@ EOF"
       echo "Installing pip packages into ${NOWCAST3_ENV} conda env"
       su vagrant -c " \
         ${PIP} install \
+          driftwood \
           raven \
           # Dev tool for tests & docs building
           sphinx-rtd-theme \
