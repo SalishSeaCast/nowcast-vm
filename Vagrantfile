@@ -230,19 +230,19 @@ EOF"
  ################################################################
  # Environment for nowcast-v3 (NEMO_Nowcast & SalishSeaNowcast)
  ################################################################
-    NOWCAST3_ENV=${NOWCAST_SYS}/nowcast3-env
-    PIP=${NOWCAST3_ENV}/bin/pip
-    if [ -d ${NOWCAST3_ENV} ]; then
-      echo "${NOWCAST3_ENV} conda env already exists"
+    NEMO_NOWCAST_ENV=${NOWCAST_SYS}/nemo_nowcast-env
+    PIP=${NEMO_NOWCAST_ENV}/bin/pip
+    if [ -d ${NEMO_NOWCAST_ENV} ]; then
+      echo "${NEMO_NOWCAST_ENV} conda env already exists"
     else
-      echo "Creating ${NOWCAST3_ENV} conda env"
+      echo "Creating ${NEMO_NOWCAST_ENV} conda env"
       su vagrant -c " \
-        $CONDA create --yes --channel gomss-nowcast --channel conda-forge \
-            --prefix ${NOWCAST3_ENV} \
+        $CONDA create --yes --channel gomss-nowcast \
+            --prefix ${NEMO_NOWCAST_ENV} \
             arrow \
             attrs \
             circus \
-            matplolib \
+            matplotlib \
             netcdf4 \
             numpy \
             paramiko \
@@ -257,7 +257,7 @@ EOF"
             pytest \
             sphinx \
       "
-      echo "Installing pip packages into ${NOWCAST3_ENV} conda env"
+      echo "Installing pip packages into ${NEMO_NOWCAST_ENV} conda env"
       su vagrant -c " \
         ${PIP} install \
           driftwood \
@@ -265,7 +265,7 @@ EOF"
           # Dev tool for tests & docs building
           sphinx-rtd-theme \
         "
-      echo "Installing editable NEMO_Nowcast & SalishSeaNowcast packages into ${NOWCAST3_ENV} conda env"
+      echo "Installing editable NEMO_Nowcast & SalishSeaNowcast packages into ${NEMO_NOWCAST_ENV} conda env"
       su vagrant -c " \
         ${PIP} install --editable ${NOWCAST_SYS}/NEMO_Nowcast/ \
         && ${PIP} install --editable ${NOWCAST_SYS}/SalishSeaNowcast/ \
@@ -273,7 +273,7 @@ EOF"
     fi
 
     su vagrant -c " \
-      echo source activate ${NOWCAST3_ENV} >> ${VAGRANT_HOME}/.bash_aliases \
+      echo source activate ${NEMO_NOWCAST_ENV} >> ${VAGRANT_HOME}/.bash_aliases \
     "
 
     NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
@@ -282,11 +282,11 @@ EOF"
     NOWCAST_LOGS=${NOWCAST_SYS}/logs/nowcast
     mkdir -p ${NOWCAST_LOGS} && chown vagrant:vagrant ${NOWCAST_LOGS}
 
-    echo "Setting up ${NOWCAST3_ENV} activate/deactivate hooks that export/unset environment variables"
+    echo "Setting up ${NEMO_NOWCAST_ENV} activate/deactivate hooks that export/unset environment variables"
     su vagrant -c " \
-      mkdir -p ${NOWCAST3_ENV}/etc/conda/activate.d \
-      && cat << EOF > ${NOWCAST3_ENV}/etc/conda/activate.d/envvars.sh
-export NOWCAST_ENV=${NOWCAST3_ENV}
+      mkdir -p ${NEMO_NOWCAST_ENV}/etc/conda/activate.d \
+      && cat << EOF > ${NEMO_NOWCAST_ENV}/etc/conda/activate.d/envvars.sh
+export NOWCAST_ENV=${NEMO_NOWCAST_ENV}
 export NOWCAST_CONFIG=${NOWCAST_CONFIG}
 export NOWCAST_YAML=${NOWCAST_YAML}
 export NOWCAST_LOGS=${NOWCAST_LOGS}
@@ -294,8 +294,8 @@ export ONC_USER_TOKEN=
 export SENTRY_DSN=
 EOF"
     su vagrant -c " \
-      mkdir -p ${NOWCAST3_ENV}/etc/conda/deactivate.d \
-      && cat << EOF > ${NOWCAST3_ENV}/etc/conda/deactivate.d/envvars.sh
+      mkdir -p ${NEMO_NOWCAST_ENV}/etc/conda/deactivate.d \
+      && cat << EOF > ${NEMO_NOWCAST_ENV}/etc/conda/deactivate.d/envvars.sh
 unset NOWCAST_ENV
 unset NOWCAST_CONFIG
 unset NOWCAST_YAML
