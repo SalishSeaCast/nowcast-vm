@@ -27,6 +27,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../tools/", "/results/nowcast-sys/tools",
     create: true
+  config.vm.synced_folder "../private-tools/", "/results/nowcast-sys/private-tools",
+    create: true
   config.vm.synced_folder "../NEMO-forcing/", "/results/nowcast-sys/NEMO-forcing",
     create: true
 
@@ -252,7 +254,7 @@ EOF"
             pyzmq \
             requests \
             schedule \
-            # Dev tool for tests & docs building
+            \
             coverage \
             pytest \
             sphinx \
@@ -262,7 +264,7 @@ EOF"
         ${PIP} install \
           driftwood \
           raven \
-          # Dev tool for tests & docs building
+          \
           sphinx-rtd-theme \
         "
       echo "Installing editable NEMO_Nowcast & SalishSeaNowcast packages into ${NEMO_NOWCAST_ENV} conda env"
