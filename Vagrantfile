@@ -12,6 +12,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.define "nowcast" do |nowcast|
     # Ubuntu 14.04 LTS
     nowcast.vm.box = "ubuntu/trusty64"
+    nowcast.vm.provider "virtualbox" do |v|
+      v.memory = 1024
+    end
+
     nowcast.vm.network :forwarded_port, guest: 80, host: 4567
 
     config.ssh.forward_agent = true
