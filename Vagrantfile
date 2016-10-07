@@ -48,6 +48,9 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     mkdir -p /ocean && chown vagrant:vagrant /ocean
     mkdir -p /var/www/html && chgrp vagrant /var/www/html && chmod 775 /var/www/html
 
+    addgroup sallen
+    adduser vagrant sallen
+
     cat << EOF > /etc/apache2/sites-available/salishsea.eos.ubc.ca.conf
 <VirtualHost *:80>
     ServerAdmin admin@salishsea.eos.ubc.ca
