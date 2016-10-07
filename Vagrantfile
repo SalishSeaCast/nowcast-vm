@@ -43,7 +43,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     apt-get install -y mg
     apt-get install -y sshfs
     apt-get install -y apache2 libapache2-mod-proxy-html libxml2-dev
-    apt-get install -y gfortran
+    apt-get install -y gfortran nco
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
