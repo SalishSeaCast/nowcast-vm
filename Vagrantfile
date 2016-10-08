@@ -248,37 +248,45 @@ EOF"
     else
       echo "Creating ${NEMO_NOWCAST_ENV} conda env"
       su vagrant -c " \
-        $CONDA create --yes --channel gomss-nowcast \
-            --prefix ${NEMO_NOWCAST_ENV} \
-            arrow \
-            attrs \
-            circus \
-            matplotlib \
-            netcdf4 \
-            numpy \
-            paramiko \
-            pip \
-            python=3 \
-            pyyaml \
-            pyzmq \
-            requests \
-            schedule \
-            \
-            coverage \
-            pytest \
-            sphinx \
+        $CONDA create --yes \
+          --channel gomss-nowcast --channel defaults --channel conda-forge \
+          --prefix ${NEMO_NOWCAST_ENV} \
+          arrow \
+          attrs \
+          bottleneck \
+          circus \
+          matplotlib \
+          netcdf4 \
+          numpy \
+          pandas \
+          paramiko \
+          pip \
+          python=3 \
+          pyyaml \
+          pyzmq \
+          retrying \
+          requests \
+          schedule \
+          scipy \
+          xarray \
+          \
+          coverage \
+          pytest \
+          sphinx \
       "
       echo "Installing pip packages into ${NEMO_NOWCAST_ENV} conda env"
       su vagrant -c " \
         ${PIP} install \
+          angles \
           driftwood \
           raven \
           \
           sphinx-rtd-theme \
         "
-      echo "Installing editable NEMO_Nowcast & SalishSeaNowcast packages into ${NEMO_NOWCAST_ENV} conda env"
+      echo "Installing editable NEMO_Nowcast, SalishSeaTools & SalishSeaNowcast packages into ${NEMO_NOWCAST_ENV} conda env"
       su vagrant -c " \
         ${PIP} install --editable ${NOWCAST_SYS}/NEMO_Nowcast/ \
+        && ${PIP} install --editable ${NOWCAST_SYS}/tools/SalishSeaTools/ \
         && ${PIP} install --editable ${NOWCAST_SYS}/SalishSeaNowcast/ \
       "
     fi
