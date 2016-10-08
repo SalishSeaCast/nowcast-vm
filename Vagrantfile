@@ -79,6 +79,7 @@ EOF
     su vagrant -c ' \
       mkdir -p /results/forcing/atmospheric/GEM2.5/GRIB/ \
       mkdir -p /results/forcing/atmospheric/GEM2.5/operational/fcst \
+      mkdir -p /results/forcing/rivers \
     '
 
     chown vagrant:vagrant /home/vagrant/nowcast
