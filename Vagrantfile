@@ -80,6 +80,9 @@ EOF
       mkdir -p /results/forcing/atmospheric/GEM2.5/GRIB/ \
       mkdir -p /results/forcing/atmospheric/GEM2.5/operational/fcst \
       mkdir -p /results/forcing/rivers \
+      mkdir -p /results/forcing/sshNeahBay/fcst \
+      mkdir -p /results/forcing/sshNeahBay/obs \
+      mkdir -p /results/forcing/sshNeahBay/txt \
     '
 
     chown vagrant:vagrant /home/vagrant/nowcast
