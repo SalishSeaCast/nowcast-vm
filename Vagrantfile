@@ -254,6 +254,7 @@ EOF"
           --prefix ${NEMO_NOWCAST_ENV} \
           arrow \
           attrs \
+          beautifulsoup4 \
           bottleneck \
           circus \
           matplotlib \
