@@ -38,6 +38,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
   # Provisioning
   config.vm.provision "shell", inline: <<-SHELL
+    add-apt-repository -y ppa:mercurial-ppa/releases
     apt-get update
 
     TIMEZONE=Canada/Pacific
@@ -47,7 +48,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     apt-get install -y mg
     apt-get install -y sshfs
     apt-get install -y apache2 libapache2-mod-proxy-html libxml2-dev
-    apt-get install -y gfortran nco
+    apt-get install -y gfortran nco mercurial
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
