@@ -83,6 +83,10 @@ EOF
       mkdir -p /results/forcing/sshNeahBay/fcst \
       mkdir -p /results/forcing/sshNeahBay/obs \
       mkdir -p /results/forcing/sshNeahBay/txt \
+      mkdir -p /results/SalishSea/nowcast \
+      mkdir -p /results/SalishSea/nowcast-green \
+      mkdir -p /results/SalishSea/forecast \
+      mkdir -p /results/SalishSea/forecast2 \
     '
 
     chown vagrant:vagrant /home/vagrant/nowcast
