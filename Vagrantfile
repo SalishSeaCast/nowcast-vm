@@ -305,6 +305,17 @@ EOF"
       echo source activate ${NEMO_NOWCAST_ENV} >> ${VAGRANT_HOME}/.bash_aliases \
     "
 
+    echo "Setting up ~/.ssh/config"
+    su vagrant -c "\
+      cat << EOF > $HOME/.ssh/config \
+Host orcinus-nowcast
+  HostName     orcinus.westgrid.ca
+  User         dlatorne
+  IdentityFile    /home/dlatorne/.ssh/SalishSeaNEMO-nowcast_id_rsa
+  ForwardAgent no
+EOF"
+    echo "Don't forget to install the SalishSeaNEMO-nowcast_id_rsa key pair in /home/dlatorne/.ssh/"
+
     NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
     NOWCAST_YAML=${NOWCAST_CONFIG}/nowcast.yaml
 
