@@ -265,6 +265,7 @@ EOF"
           beautifulsoup4 \
           bottleneck \
           circus \
+          cliff \
           matplotlib \
           netcdf4 \
           numpy \
@@ -297,6 +298,7 @@ EOF"
       su vagrant -c " \
         ${PIP} install --editable ${NOWCAST_SYS}/NEMO_Nowcast/ \
         && ${PIP} install --editable ${NOWCAST_SYS}/tools/SalishSeaTools/ \
+        && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaCmd/ \
         && ${PIP} install --editable ${NOWCAST_SYS}/SalishSeaNowcast/ \
       "
     fi
