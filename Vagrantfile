@@ -35,6 +35,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../NEMO-forcing/", "/results/nowcast-sys/NEMO-forcing",
     create: true
+  config.vm.synced_folder "../SS-run-sets/", "/results/nowcast-sys/SS-run-sets",
+    create: true
 
   # Provisioning
   config.vm.provision "shell", inline: <<-SHELL
@@ -88,6 +90,7 @@ EOF
       mkdir -p /results/SalishSea/nowcast-green \
       mkdir -p /results/SalishSea/forecast \
       mkdir -p /results/SalishSea/forecast2 \
+      mkdir -p /results/nowcast-sys/runs \
     '
 
     chown vagrant:vagrant /home/vagrant/nowcast
@@ -317,6 +320,12 @@ Host orcinus-nowcast
   ForwardAgent no
 EOF"
     echo "Don't forget to install the SalishSeaNEMO-nowcast_id_rsa key pair in /home/dlatorne/.ssh/"
+
+    echo "Setting up ${NOWCAST_SYS}/runs/ directory"
+    su vagrant -c " \
+      cp ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/namelist.time ${NOWCAST_SYS}/runs/ \
+      ln -s ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/nowcast/iodef.xml ${NOWCAST_SYS}/runs/iodef.xml
+    "
 
     NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
     NOWCAST_YAML=${NOWCAST_CONFIG}/nowcast.yaml
