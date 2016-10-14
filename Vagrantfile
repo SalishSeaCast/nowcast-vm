@@ -324,7 +324,7 @@ EOF"
     echo "Setting up ${NOWCAST_SYS}/runs/ directory"
     su vagrant -c " \
       cp ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/namelist.time ${NOWCAST_SYS}/runs/ \
-      ln -s ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/nowcast/iodef.xml ${NOWCAST_SYS}/runs/iodef.xml
+      ln -s ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/nowcast/iodef.xml ${NOWCAST_SYS}/runs/iodef.xml \
     "
 
     NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
