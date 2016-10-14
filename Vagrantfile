@@ -37,6 +37,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../SS-run-sets/", "/results/nowcast-sys/SS-run-sets",
     create: true
+  config.vm.synced_folder "../NEMO-3.6-code/", "/results/nowcast-sys/NEMO-3.6-code",
+    create: true
+  config.vm.synced_folder "../XIOS/", "/results/nowcast-sys/XIOS",
+    create: true
 
   # Provisioning
   config.vm.provision "shell", inline: <<-SHELL
@@ -325,6 +329,14 @@ EOF"
     su vagrant -c " \
       cp ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/namelist.time ${NOWCAST_SYS}/runs/ \
       ln -s ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/nowcast/iodef.xml ${NOWCAST_SYS}/runs/iodef.xml \
+    "
+
+    echo "Setting up mock nemo.exe and xios_server.exe executables"
+    su vagrant -c " \
+      mkdir -p ${NOWCAST_SYS}/NEMO-3.6-code/NEMOGCM/CONFIG/SOG/BLD/bin/ \
+      touch ${NOWCAST_SYS}/NEMO-3.6-code/NEMOGCM/CONFIG/SOG/BLD/bin/nemo.exe \
+      mkdir -p ${NOWCAST_SYS}/XIOS/bin/ \
+      touch ${NOWCAST_SYS}/XIOS/bin/xios_server.exe \
     "
 
     NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
