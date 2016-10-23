@@ -278,6 +278,7 @@ EOF"
           numpy \
           pandas \
           paramiko \
+          pillow \
           pip \
           python=3 \
           pyyaml \
