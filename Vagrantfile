@@ -95,6 +95,11 @@ EOF
       mkdir -p /results/SalishSea/forecast \
       mkdir -p /results/SalishSea/forecast2 \
       mkdir -p /results/nowcast-sys/runs \
+      mkdir -p /results/nowcast-sys/figures/nowcast \
+      mkdir -p /results/nowcast-sys/figures/nowcast-green \
+      mkdir -p /results/nowcast-sys/figures/forecast \
+      mkdir -p /results/nowcast-sys/figures/forecast2 \
+      mkdir -p /results/nowcast-sys/figures/storm-surge \
     '
 
     chown vagrant:vagrant /home/vagrant/nowcast
