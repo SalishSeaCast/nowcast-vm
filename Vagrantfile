@@ -21,11 +21,11 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     config.ssh.forward_agent = true
   end
 
-  config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
+  config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
     create: true
   config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
     create: true
-  config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
+  config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
     create: true
   config.vm.synced_folder "../salishsea_site", "/home/vagrant/nowcast/www/salishsea_site",
     create: true
@@ -248,12 +248,14 @@ EOF"
     su vagrant -c " \
       mkdir -p ${SALISHSEA_SITE_ENV}/etc/conda/activate.d \
       && cat << EOF > ${SALISHSEA_SITE_ENV}/etc/conda/activate.d/envvars.sh
+export SALISHSEA_SITE_ENV=${SALISHSEA_SITE_ENV}
 export SALISHSEA_SITE=/home/vagrant/nowcast/www/salishsea_site
 export SENTRY_DSN=
 EOF"
     su vagrant -c " \
       mkdir -p ${SALISHSEA_SITE_ENV}/etc/conda/deactivate.d \
       && cat << EOF > ${SALISHSEA_SITE_ENV}/etc/conda/deactivate.d/envvars.sh
+unset SALISHSEA_SITE_ENV
 unset SALISHSEA_SITE
 unset SENTRY_DSN
 EOF"
