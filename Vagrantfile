@@ -211,19 +211,19 @@ EOF"
  ########################################################
  # Environment for salishsea-site Pyramid app
  ########################################################
-    SALISHSEA_SITE_ENV=$NOWCAST_SYS/salishsea-site-env
-    PIP=$SALISHSEA_SITE_ENV/bin/pip
-    if [ -d $SALISHSEA_SITE_ENV ]; then
-      echo "$SALISHSEA_SITE_ENV conda env already exists"
+    SALISHSEA_SITE_ENV=${NOWCAST_SYS}/salishsea-site-env
+    PIP=${SALISHSEA_SITE_ENV}/bin/pip
+    if [ -d ${SALISHSEA_SITE_ENV} ]; then
+      echo "${SALISHSEA_SITE_ENV} conda env already exists"
     else
-      echo "Creating $SALISHSEA_SITE_ENV conda env"
+      echo "Creating ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
-        $CONDA create --yes --prefix $SALISHSEA_SITE_ENV \
+        $CONDA create --yes --prefix ${SALISHSEA_SITE_ENV} \
           pip \
           python=3 \
           pyyaml \
       "
-      echo "Installing pip packages into $SALISHSEA_SITE_ENV conda env"
+      echo "Installing pip packages into ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
         $PIP install \
           chaussette \
@@ -237,7 +237,7 @@ EOF"
     fi
 
     # su vagrant -c " \
-    #   echo source activate $SALISHSEA_SITE_ENV >> $VAGRANT_HOME/.bash_aliases \
+    #   echo source activate ${SALISHSEA_SITE_ENV} >> ${VAGRANT_HOME}/.bash_aliases \
     # "
 
     su vagrant -c " \
@@ -249,7 +249,8 @@ EOF"
       mkdir -p ${SALISHSEA_SITE_ENV}/etc/conda/activate.d \
       && cat << EOF > ${SALISHSEA_SITE_ENV}/etc/conda/activate.d/envvars.sh
 export SALISHSEA_SITE_ENV=${SALISHSEA_SITE_ENV}
-export SALISHSEA_SITE=/home/vagrant/nowcast/www/salishsea_site
+export SALISHSEA_SITE=${NOWCAST_SYS}/salishsea_site/
+export NOWCAST_LOGS=${NOWCAST_SYS}/logs/nowcast/
 export SENTRY_DSN=
 EOF"
     su vagrant -c " \
@@ -257,6 +258,7 @@ EOF"
       && cat << EOF > ${SALISHSEA_SITE_ENV}/etc/conda/deactivate.d/envvars.sh
 unset SALISHSEA_SITE_ENV
 unset SALISHSEA_SITE
+unset NOWCAST_LOGS
 unset SENTRY_DSN
 EOF"
 
