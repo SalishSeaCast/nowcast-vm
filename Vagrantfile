@@ -222,6 +222,9 @@ EOF"
           pip \
           python=3 \
           pyyaml \
+          \
+          coverage \
+          pytest \
       "
       echo "Installing pip packages into ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
