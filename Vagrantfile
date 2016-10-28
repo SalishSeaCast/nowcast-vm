@@ -229,6 +229,7 @@ EOF"
       echo "Installing pip packages into ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
         $PIP install \
+          arrow \
           chaussette \
           circus \
           pyramid \
