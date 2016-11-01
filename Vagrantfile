@@ -230,6 +230,7 @@ EOF"
       su vagrant -c " \
         $PIP install \
           arrow \
+          attrs \
           chaussette \
           circus \
           pyramid \
