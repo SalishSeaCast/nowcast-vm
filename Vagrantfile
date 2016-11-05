@@ -222,6 +222,7 @@ EOF"
           pip \
           python=3 \
           pyyaml \
+          requests \
           \
           coverage \
           pytest \
