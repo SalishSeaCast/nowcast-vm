@@ -100,6 +100,7 @@ EOF
       mkdir -p /results/nowcast-sys/figures/forecast \
       mkdir -p /results/nowcast-sys/figures/forecast2 \
       mkdir -p /results/nowcast-sys/figures/storm-surge \
+      mkdir -p /results/nowcast-sys/figures/storm-surge/atom \
     '
 
     chown vagrant:vagrant /home/vagrant/nowcast
