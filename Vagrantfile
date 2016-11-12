@@ -288,6 +288,7 @@ EOF"
           bottleneck \
           circus \
           cliff \
+          docutils \
           mako \
           matplotlib \
           netcdf4 \
