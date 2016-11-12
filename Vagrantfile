@@ -288,6 +288,7 @@ EOF"
           bottleneck \
           circus \
           cliff \
+          mako \
           matplotlib \
           netcdf4 \
           numpy \
@@ -313,6 +314,7 @@ EOF"
         ${PIP} install \
           angles \
           driftwood \
+          feedgen \
           raven \
           \
           sphinx-rtd-theme \
