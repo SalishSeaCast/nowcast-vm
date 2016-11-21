@@ -192,6 +192,7 @@ EOF
 
     su vagrant -c " \
       mkdir -p /results/observations/ONC/CTD/SCVIP \
+      mkdir -p /results/observations/ONC/CTD/SEVIP \
     "
 
     echo "Setting up ${NOWCAST_ENV} activate/deactivate hooks that export/unset environment variables"
