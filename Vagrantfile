@@ -286,6 +286,7 @@ EOF"
           --prefix ${NEMO_NOWCAST_ENV} \
           arrow \
           attrs \
+          basemap \
           beautifulsoup4 \
           bottleneck \
           circus \
