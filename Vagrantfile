@@ -86,6 +86,7 @@ EOF
     su vagrant -c ' \
       mkdir -p /results/forcing/atmospheric/GEM2.5/GRIB/ \
       mkdir -p /results/forcing/atmospheric/GEM2.5/operational/fcst \
+      mkdir -p /results/forcing/LiveOcean/downloaded \
       mkdir -p /results/forcing/rivers \
       mkdir -p /results/forcing/sshNeahBay/fcst \
       mkdir -p /results/forcing/sshNeahBay/obs \
