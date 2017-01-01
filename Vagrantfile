@@ -25,6 +25,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
     create: true
+  config.vm.synced_folder "../NEMO-Cmd", "/results/nowcast-sys/NEMO-Cmd",
+    create: true
   config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
     create: true
   config.vm.synced_folder "../salishsea_site", "/home/vagrant/nowcast/www/salishsea_site",
@@ -328,6 +330,7 @@ EOF"
       su vagrant -c " \
         ${PIP} install --editable ${NOWCAST_SYS}/NEMO_Nowcast/ \
         && ${PIP} install --editable ${NOWCAST_SYS}/tools/SalishSeaTools/ \
+        && $PIP install --editable $NOWCAST_SYS/NEMO-Cmd/ \
         && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaCmd/ \
         && ${PIP} install --editable ${NOWCAST_SYS}/SalishSeaNowcast/ \
       "
