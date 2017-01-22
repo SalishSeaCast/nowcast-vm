@@ -29,8 +29,6 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
     create: true
-  config.vm.synced_folder "../salishsea_site", "/home/vagrant/nowcast/www/salishsea_site",
-    create: true
   config.vm.synced_folder "../tools/", "/results/nowcast-sys/tools",
     create: true
   config.vm.synced_folder "../private-tools/", "/results/nowcast-sys/private-tools",
@@ -56,7 +54,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     apt-get install -y mg
     apt-get install -y sshfs
     apt-get install -y apache2 libapache2-mod-proxy-html libxml2-dev
-    apt-get install -y gfortran nco mercurial
+    # apt-get install -y mercurial
+    apt-get install -y gfortran nco
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
@@ -85,6 +84,7 @@ EOF
 
     chown vagrant:vagrant /results
     chown vagrant:vagrant /results/nowcast-sys
+    NOWCAST_SYS=/results/nowcast-sys
     su vagrant -c ' \
       mkdir -p /results/forcing/atmospheric/GEM2.5/GRIB/ \
       mkdir -p /results/forcing/atmospheric/GEM2.5/operational/fcst \
@@ -106,17 +106,6 @@ EOF
       mkdir -p /results/nowcast-sys/figures/storm-surge/atom \
     '
 
-    chown vagrant:vagrant /home/vagrant/nowcast
-    chown vagrant:vagrant /home/vagrant/nowcast/www
-    su vagrant -c ' \
-      cd /home/vagrant/nowcast \
-      && ln -sf /results/nowcast-sys/tools/SalishSeaNowcast/nowcast/nowcast.yaml \
-    '
-    su vagrant -c ' \
-      cd /home/vagrant/nowcast/www \
-      && ln -sf /results/nowcast-sys/tools/SalishSeaNowcast/nowcast/www/templates \
-    '
-
     VAGRANT_HOME=/home/vagrant
     MINICONDA_INSTALLER=http://repo.continuum.io/miniconda/Miniconda3-latest-Linux-x86_64.sh
     if [ -d $VAGRANT_HOME/miniconda ]; then
@@ -133,89 +122,16 @@ EOF
     fi
 
     CONDA_BIN=$VAGRANT_HOME/miniconda/bin
+    CONDA=$CONDA_BIN/conda
     touch $VAGRANT_HOME/.bash_aliases && chown vagrant:vagrant $VAGRANT_HOME/.bash_aliases
     su vagrant -c " \
       echo export PATH=$CONDA_BIN:\$PATH > $VAGRANT_HOME/.bash_aliases \
     "
 
 
- ########################################################
- # Environment for nowcast-v2 (tools/SalishSeaNowcast)
- ########################################################
-    CONDA=$CONDA_BIN/conda
-    NOWCAST_SYS=/results/nowcast-sys
-    NOWCAST_ENV=$NOWCAST_SYS/nowcast-env
-    PIP=$NOWCAST_ENV/bin/pip
-    if [ -d $NOWCAST_ENV ]; then
-      echo "$NOWCAST_ENV conda env already exists"
-    else
-      echo "Creating $NOWCAST_ENV conda env"
-      su vagrant -c " \
-        $CONDA create --yes --prefix $NOWCAST_ENV \
-            bottleneck \
-            lxml \
-            mako \
-            matplotlib \
-            netCDF4 \
-            numpy \
-            pandas \
-            paramiko \
-            pillow \
-            pyyaml \
-            pyzmq \
-            pip \
-            python=3 \
-            requests \
-            scipy \
-            sphinx \
-            xarray \
-      "
-      echo "Installing pip packages into $NOWCAST_ENV conda env"
-      su vagrant -c " \
-        $PIP install \
-          angles \
-          arrow \
-          BeautifulSoup4 \
-          driftwood \
-          feedgen \
-          retrying \
-          sphinx-bootstrap-theme \
-        "
-      echo "Installing editable tools/SalishSea* packages into $NOWCAST_ENV conda env"
-      su vagrant -c " \
-        $PIP install --editable $NOWCAST_SYS/tools/SalishSeaTools/ \
-        && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaCmd/ \
-        && $PIP install --editable $NOWCAST_SYS/tools/SalishSeaNowcast/ \
-      "
-    fi
-
-    # su vagrant -c " \
-    #   echo source activate $NOWCAST_ENV >> $VAGRANT_HOME/.bash_aliases \
-    # "
-
-    su vagrant -c " \
-      mkdir -p /results/observations/ONC/CTD/SCVIP \
-      mkdir -p /results/observations/ONC/CTD/SEVIP \
-    "
-
-    echo "Setting up ${NOWCAST_ENV} activate/deactivate hooks that export/unset environment variables"
-    su vagrant -c " \
-      mkdir -p ${NOWCAST_ENV}/etc/conda/activate.d \
-      && cat << EOF > ${NOWCAST_ENV}/etc/conda/activate.d/envvars.sh
-export ONC_USER_TOKEN=
-export SENTRY_DSN=
-EOF"
-    su vagrant -c " \
-      mkdir -p ${NOWCAST_ENV}/etc/conda/deactivate.d \
-      && cat << EOF > ${NOWCAST_ENV}/etc/conda/deactivate.d/envvars.sh
-unset ONC_USER_TOKEN
-unset SENTRY_DSN
-EOF"
-
-
- ########################################################
- # Environment for salishsea-site Pyramid app
- ########################################################
+########################################################
+# Environment for salishsea-site Pyramid app
+########################################################
     SALISHSEA_SITE_ENV=${NOWCAST_SYS}/salishsea-site-env
     PIP=${SALISHSEA_SITE_ENV}/bin/pip
     if [ -d ${SALISHSEA_SITE_ENV} ]; then
@@ -274,9 +190,9 @@ unset SENTRY_DSN
 EOF"
 
 
- ################################################################
- # Environment for nowcast-v3 (NEMO_Nowcast & SalishSeaNowcast)
- ################################################################
+################################################################
+# Environment for nowcast-v3 (NEMO_Nowcast & SalishSeaNowcast)
+################################################################
     NEMO_NOWCAST_ENV=${NOWCAST_SYS}/nemo_nowcast-env
     PIP=${NEMO_NOWCAST_ENV}/bin/pip
     if [ -d ${NEMO_NOWCAST_ENV} ]; then
