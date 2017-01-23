@@ -54,8 +54,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     apt-get install -y mg
     apt-get install -y sshfs
     apt-get install -y apache2 libapache2-mod-proxy-html libxml2-dev
-    # apt-get install -y mercurial
     apt-get install -y gfortran nco
+    apt-get install -y mercurial
 
     mkdir -p /data && chown vagrant:vagrant /data
     mkdir -p /ocean && chown vagrant:vagrant /ocean
@@ -258,7 +258,7 @@ EOF"
 
     echo "Setting up ~/.ssh/config"
     su vagrant -c "\
-      cat << EOF > $HOME/.ssh/config \
+      cat << EOF > /home/vagrant/.ssh/config
 Host orcinus-nowcast
   HostName     orcinus.westgrid.ca
   User         dlatorne
@@ -270,15 +270,15 @@ EOF"
     echo "Setting up ${NOWCAST_SYS}/runs/ directory"
     su vagrant -c " \
       cp ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/namelist.time ${NOWCAST_SYS}/runs/ \
-      ln -s ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/nowcast/iodef.xml ${NOWCAST_SYS}/runs/iodef.xml \
+      && ln -s ${NOWCAST_SYS}/SS-run-sets/SalishSea/nemo3.6/nowcast/iodef.xml ${NOWCAST_SYS}/runs/iodef.xml \
     "
 
     echo "Setting up mock nemo.exe and xios_server.exe executables"
     su vagrant -c " \
       mkdir -p ${NOWCAST_SYS}/NEMO-3.6-code/NEMOGCM/CONFIG/SOG/BLD/bin/ \
-      touch ${NOWCAST_SYS}/NEMO-3.6-code/NEMOGCM/CONFIG/SOG/BLD/bin/nemo.exe \
-      mkdir -p ${NOWCAST_SYS}/XIOS/bin/ \
-      touch ${NOWCAST_SYS}/XIOS/bin/xios_server.exe \
+      && touch ${NOWCAST_SYS}/NEMO-3.6-code/NEMOGCM/CONFIG/SOG/BLD/bin/nemo.exe \
+      && mkdir -p ${NOWCAST_SYS}/XIOS/bin/ \
+      && touch ${NOWCAST_SYS}/XIOS/bin/xios_server.exe \
     "
 
     NOWCAST_CONFIG=${NOWCAST_SYS}/SalishSeaNowcast/config
