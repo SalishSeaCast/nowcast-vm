@@ -238,6 +238,7 @@ EOF"
           angles \
           driftwood \
           feedgen \
+          python-hglib \
           raven \
           \
           sphinx-rtd-theme \
