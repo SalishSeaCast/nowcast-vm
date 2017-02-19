@@ -27,6 +27,8 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../NEMO-Cmd", "/results/nowcast-sys/NEMO-Cmd",
     create: true
+  config.vm.synced_folder "../SalishSeaCmd", "/results/nowcast-sys/SalishSeaCmd",
+    create: true
   config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
     create: true
   config.vm.synced_folder "../tools/", "/results/nowcast-sys/tools",
