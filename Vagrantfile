@@ -95,6 +95,8 @@ EOF
       mkdir -p /results/forcing/sshNeahBay/fcst \
       mkdir -p /results/forcing/sshNeahBay/obs \
       mkdir -p /results/forcing/sshNeahBay/txt \
+      mkdir -p /results/forcing/wwatch3/wind \
+      mkdir -p /results/forcing/wwatch3/current \
       mkdir -p /results/SalishSea/nowcast \
       mkdir -p /results/SalishSea/nowcast-green \
       mkdir -p /results/SalishSea/forecast \
