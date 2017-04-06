@@ -56,7 +56,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     apt-get install -y mg
     apt-get install -y sshfs
     apt-get install -y apache2 libapache2-mod-proxy-html libxml2-dev
-    apt-get install -y gfortran nco
+    apt-get install -y gfortran nco netcdf-bin
     apt-get install -y mercurial
 
     mkdir -p /data && chown vagrant:vagrant /data
