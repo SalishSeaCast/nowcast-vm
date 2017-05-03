@@ -221,7 +221,7 @@ EOF"
           cliff \
           dask \
           docutils \
-          hdf4 \
+          hdf4=4.2.12 \
           mako \
           matplotlib=1.5.3 \
           netcdf4 \
