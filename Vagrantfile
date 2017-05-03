@@ -108,6 +108,7 @@ EOF
       mkdir -p /results/nowcast-sys/figures/forecast2 \
       mkdir -p /results/nowcast-sys/figures/storm-surge \
       mkdir -p /results/nowcast-sys/figures/storm-surge/atom \
+      mkdir -p /results/nowcast-sys/figures/salishsea-site/static/img \
     '
 
     VAGRANT_HOME=/home/vagrant
@@ -173,6 +174,10 @@ EOF
 
     su vagrant -c " \
       mkdir -p /results/nowcast-sys/logs/salishsea-site \
+    "
+
+    su vagrant -c " \
+      ln -s /results/nowcast-sys/salishsea_site/salishsea_site/static/img/index.svg /results/nowcast-sys/figures/salishsea-site/static/img/index.svg \
     "
 
     echo "Setting up ${SALISHSEA_SITE_ENV} activate/deactivate hooks that export/unset environment variables"
