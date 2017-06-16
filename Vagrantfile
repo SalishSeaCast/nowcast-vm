@@ -98,6 +98,7 @@ EOF
       mkdir -p /results/forcing/wwatch3/wind \
       mkdir -p /results/forcing/wwatch3/current \
       mkdir -p /results/SalishSea/nowcast \
+      mkdir -p /results/SalishSea/nowcast-blue \
       mkdir -p /results/SalishSea/nowcast-green \
       mkdir -p /results/SalishSea/forecast \
       mkdir -p /results/SalishSea/forecast2 \
