@@ -220,6 +220,7 @@ EOF"
           bottleneck \
           circus \
           cliff \
+          cmocean \
           dask \
           docutils \
           hdf4=4.2.12 \
