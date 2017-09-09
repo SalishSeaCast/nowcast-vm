@@ -22,16 +22,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # For SalishSeaNowcast dev
-  config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
-    create: true
-  config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
-    create: true
+  # config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
+  #   create: true
+  # config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
+  #   create: true
 
   # For salishsea-site dev
-  # config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
-  #   create: true
-  # config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
-  #   create: true
+  config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
+    create: true
+  config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
+    create: true
 
   config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
     create: true
@@ -172,9 +172,13 @@ EOF
           pyramid \
           pyramid-crow \
           pyramid-debugtoolbar \
-          pyramid_mako \
-          waitress \
+          pyramid-mako \
+          waitress==0.9.0 \
         "
+      echo "Installing editable salishsea-site package into ${SALISHSEA_SITE_ENV} conda env"
+      su vagrant -c " \
+        ${PIP} install --editable ${NOWCAST_SYS}/salishsea-site/ \
+      "
     fi
 
     # su vagrant -c " \
@@ -232,6 +236,7 @@ EOF"
           dask \
           docutils \
           hdf4=4.2.12 \
+          lxml \
           mako \
           matplotlib=1.5.3 \
           netcdf4 \
@@ -261,6 +266,7 @@ EOF"
           python-hglib \
           raven \
           retrying \
+          scour \
           \
           sphinx-rtd-theme \
         "
