@@ -22,16 +22,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # For SalishSeaNowcast dev
-  # config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
-  #   create: true
-  # config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
-  #   create: true
+  config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
+    create: true
+  config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
+    create: true
 
   # For salishsea-site dev
-  config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
-    create: true
-  config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
-    create: true
+  # config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
+  #   create: true
+  # config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
+  #   create: true
 
   config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
     create: true
@@ -110,6 +110,7 @@ EOF
       mkdir -p /results/SalishSea/nowcast-green \
       mkdir -p /results/SalishSea/forecast \
       mkdir -p /results/SalishSea/forecast2 \
+      mkdir -p /results/SalishSea/rolling-forecasts/nemo \
       mkdir -p /results/nowcast-sys/runs \
       mkdir -p /results/nowcast-sys/figures/nowcast \
       mkdir -p /results/nowcast-sys/figures/nowcast-green \
