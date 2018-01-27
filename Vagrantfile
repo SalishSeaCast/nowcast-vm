@@ -22,16 +22,16 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   end
 
   # For SalishSeaNowcast dev
-  config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
-    create: true
-  config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
-    create: true
+  # config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
+  #   create: true
+  # config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
+  #   create: true
 
   # For salishsea-site dev
-  # config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
-  #   create: true
-  # config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
-  #   create: true
+  config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
+    create: true
+  config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
+    create: true
 
   config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
     create: true
@@ -43,7 +43,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
     create: true
   config.vm.synced_folder "../private-tools/", "/results/nowcast-sys/private-tools",
     create: true
-  config.vm.synced_folder "../NEMO-forcing/", "/results/nowcast-sys/NEMO-forcing",
+  config.vm.synced_folder "../grid/", "/results/nowcast-sys/grid",
+    create: true
+  config.vm.synced_folder "../rivers-climatology/", "/results/nowcast-sys/rivers-climatology",
+    create: true
+  config.vm.synced_folder "../tides/", "/results/nowcast-sys/tides",
+    create: true
+  config.vm.synced_folder "../tracers/", "/results/nowcast-sys/tracers",
     create: true
   config.vm.synced_folder "../SS-run-sets/", "/results/nowcast-sys/SS-run-sets",
     create: true
