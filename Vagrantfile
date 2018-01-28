@@ -160,7 +160,9 @@ EOF
     else
       echo "Creating ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
-        $CONDA create --yes --prefix ${SALISHSEA_SITE_ENV} \
+        $CONDA create --yes \
+          -channel conda-forge --channel defaults \
+          --prefix ${SALISHSEA_SITE_ENV} \
           pip \
           python=3 \
           pyyaml \
@@ -230,7 +232,7 @@ EOF"
       echo "Creating ${NOWCAST_ENV} conda env"
       su vagrant -c " \
         $CONDA create --yes \
-          --channel gomss-nowcast --channel defaults --channel conda-forge \
+          --channel gomss-nowcast --channel conda-forge --channel defaults \
           --prefix ${NOWCAST_ENV} \
           arrow \
           attrs \
