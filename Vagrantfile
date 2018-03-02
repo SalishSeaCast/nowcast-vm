@@ -24,13 +24,13 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   # For SalishSeaNowcast dev
   # config.vm.synced_folder ".", "/results/nowcast-sys/SalishSeaNowcast",
   #   create: true
-  # config.vm.synced_folder "../salishsea_site", "/results/nowcast-sys/salishsea_site",
+  # config.vm.synced_folder "../salishsea-site", "/results/nowcast-sys/salishsea-site",
   #   create: true
 
   # For salishsea-site dev
   config.vm.synced_folder "../SalishSeaNowcast", "/results/nowcast-sys/SalishSeaNowcast",
     create: true
-  config.vm.synced_folder ".", "/results/nowcast-sys/salishsea_site",
+  config.vm.synced_folder ".", "/results/nowcast-sys/salishsea-site",
     create: true
 
   config.vm.synced_folder "../NEMO_Nowcast", "/results/nowcast-sys/NEMO_Nowcast",
@@ -161,15 +161,12 @@ EOF
       echo "Creating ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
         $CONDA create --yes \
-          -channel conda-forge --channel defaults \
+          --channel conda-forge --channel defaults \
           --prefix ${SALISHSEA_SITE_ENV} \
           pip \
-          python=3 \
+          python=3.6 \
           pyyaml \
           requests \
-          \
-          coverage \
-          pytest \
       "
       echo "Installing pip packages into ${SALISHSEA_SITE_ENV} conda env"
       su vagrant -c " \
@@ -244,7 +241,6 @@ EOF"
           cmocean \
           dask \
           docutils \
-          hdf4=4.2.12 \
           lxml \
           mako \
           matplotlib=1.5.3 \
@@ -254,30 +250,29 @@ EOF"
           paramiko \
           pillow \
           pip \
+          pygrib \
           python=3.6 \
           pyyaml \
           pyzmq \
           requests \
           schedule \
           scipy \
+          shaplely \
           xarray \
-          \
-          coverage \
-          pytest \
-          sphinx \
       "
       echo "Installing pip packages into ${NOWCAST_ENV} conda env"
       su vagrant -c " \
         ${PIP} install \
           angles \
           driftwood \
+          f90nml \
           feedgen \
           python-hglib \
           raven \
           retrying \
           scour \
-          \
-          sphinx-rtd-theme \
+          utm \
+          zeep \
         "
       echo "Installing editable NEMO_Nowcast, SalishSeaTools & SalishSeaNowcast packages into ${NOWCAST_ENV} conda env"
       su vagrant -c " \
